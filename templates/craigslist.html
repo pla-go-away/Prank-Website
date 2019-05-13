@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Pranktastic v0.95</title>
+    <!-- Bootstrap core CSS-->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" rel="stylesheet" type="text/css">
+    <!-- Page level plugin CSS-->
+    <link href="/static/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="/static/css/sb-admin.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="static/images/favicon-phone.ico" />
+
+<style>
+.ET {
+	color: #6B0505;
+	font-weight: bold;
+}
+.CT {
+	color: #7E0002;
+	font-weight: bold;
+}
+.MT {
+	color: #9A8100;
+	font-weight: bold;
+}
+.PT {
+	color: #024700;
+	font-weight: bold;
+}
+#images > a > img {
+	max-width: 30px;
+}
+.images > a > img {
+	max-width: 200px !important;
+	max-height: 200px !important;
+}
+
+/* Button used to open the contact form - fixed at the bottom of the page */
+.open-button {
+  background-color: rgb(85, 26, 139);
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  width: 280px;
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 400px;
+  padding: 10px;
+  background-color: white;
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+
+/*SIPNNED*/
+.lds-spinner {
+  color: official;
+  display: inline-block;
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+.lds-spinner div {
+  transform-origin: 32px 32px;
+  animation: lds-spinner 1.2s linear infinite;
+}
+.lds-spinner div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 29px;
+  width: 5px;
+  height: 14px;
+  border-radius: 20%;
+  background: #cef;
+}
+.lds-spinner div:nth-child(1) {
+  transform: rotate(0deg);
+  animation-delay: -1.1s;
+}
+.lds-spinner div:nth-child(2) {
+  transform: rotate(30deg);
+  animation-delay: -1s;
+}
+.lds-spinner div:nth-child(3) {
+  transform: rotate(60deg);
+  animation-delay: -0.9s;
+}
+.lds-spinner div:nth-child(4) {
+  transform: rotate(90deg);
+  animation-delay: -0.8s;
+}
+.lds-spinner div:nth-child(5) {
+  transform: rotate(120deg);
+  animation-delay: -0.7s;
+}
+.lds-spinner div:nth-child(6) {
+  transform: rotate(150deg);
+  animation-delay: -0.6s;
+}
+.lds-spinner div:nth-child(7) {
+  transform: rotate(180deg);
+  animation-delay: -0.5s;
+}
+.lds-spinner div:nth-child(8) {
+  transform: rotate(210deg);
+  animation-delay: -0.4s;
+}
+.lds-spinner div:nth-child(9) {
+  transform: rotate(240deg);
+  animation-delay: -0.3s;
+}
+.lds-spinner div:nth-child(10) {
+  transform: rotate(270deg);
+  animation-delay: -0.2s;
+}
+.lds-spinner div:nth-child(11) {
+  transform: rotate(300deg);
+  animation-delay: -0.1s;
+}
+.lds-spinner div:nth-child(12) {
+  transform: rotate(330deg);
+  animation-delay: 0s;
+}
+@keyframes lds-spinner {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+</style>
+
+  </head>
+
+  <body id="page-top">
+  
+	{% block body %}
+    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+      <a class="navbar-brand mr-1" href="index.html">Pranktastic v0.95</a>
+
+      <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- Navbar Search -->
+      <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+        <!--div class="input-group">
+          <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div-->
+      </form>
+
+      <!-- Navbar -->
+      <ul class="navbar-nav ml-auto ml-md-0">
+        <li class="nav-item dropdown no-arrow mx-1">
+          <!--a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-bell fa-fw"></i>
+            <span class="badge badge-danger">9+</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div-->
+        </li>
+        <li class="nav-item dropdown no-arrow mx-1">
+          <!--a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-envelope fa-fw"></i>
+            <span class="badge badge-danger">7</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div-->
+        </li>
+        <li class="nav-item dropdown no-arrow">
+          <!--a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user-circle fa-fw"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+            <a class="dropdown-item" href="#">Settings</a>
+            <a class="dropdown-item" href="#">Activity Log</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+          </div-->
+        </li>
+      </ul>
+
+    </nav>
+
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+      <ul class="sidebar navbar-nav ">
+        <li class="nav-item">
+          <a class="nav-link" href="/">
+            <i class="fas fa-fw fa-home"></i>
+            <span>Home</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/classifieds">
+            <i class="fas fa-fw fa-ad"></i>
+            <span>Classifieds</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/twitter">
+            <i class="fas fa-fw fa-dove"></i>
+            <span>Twitter</span>
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/craigslist">
+            <i class="fas fa-fw fa-list-alt"></i>
+            <span>Craigslist</span>
+          </a>
+        </li>
+        <hr />
+        <li class="nav-item">
+          <a class="nav-link" href="https://flightaware.com/" rel="noreferrer" target="_blank">
+            <i class="fas fa-fw fa-plane"></i>
+            <span>Flight Aware</span>
+          </a>
+        </li>        
+        <li class="nav-item">
+          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-fw fa-user-alt"></i>
+            <span>Random Profile</span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+          <div style="padding: 0.5em;">
+            <h6>{{ firstd }} {{ lastd }}</h6>
+            <a title="Learn more" href="https://www.google.com/search?q=site%3Abls.gov%2Fooh+{{ occupationd }}" rel="noreferrer">{{ occupationd }}</a><br />
+            <a title="Learn more" href="https://www.google.com/search?q=site%3Ahoovers.com%2Fcompany-information+{{ companyd }}" rel="noreferrer">{{ companyd }}</a>
+            <div class="dropdown-divider"></div>
+          </div>
+          </div>
+        </li>
+
+
+      </ul>
+      <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Breadcrumbs-->
+          <div class="breadcrumb row item-active">
+
+                <div class="col-md-4">
+                    <dd>{{ time_utc }} GMT</dd> 
+                    <dd>{{ time_et }} <span class="ET">ET</span></dd>
+                </div>
+                <div class="col-md-4">
+                    <dd>{{ time_ct }} <span class="CT">CT</span></dd>
+                    <dd>{{ time_mt }} <span class="MT">MT</span></dd>
+               </div>
+               <div class="col-md-4">
+                    <dd>{{ time_pt }} <span class="PT">PT</span></dd>
+                    <dd>{{ time_ht }} HST</dd>
+            </div>
+          </div>
+
+          <!-- DataTables Example -->
+          <div class="card mb-3">
+            <div class="card-header">
+            <div class="row">
+            <div class="col-md-3">
+            	<em>Craigslist</em>
+            </div>
+            <div class="col-md-3">
+            	<em>{{ city }}</em>
+            </div>
+            <div class="col-md-3">
+            	<em>{{ search_type }}</em>
+            </div>
+
+            </div>
+            <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="card-body">
+              <div class="table-responsive">
+              
+                
+                
+                {% for c in cl_list %}
+                <div class="row">         
+                  <div class="col-md-8">
+                  		<a href="{{ c[0] }}" target="_blank" rel="noreferrer">{{ c[2] }}</a>
+                  </div>
+                  <div class="col-md-4">
+                        Posted on {{ c[1] }}
+                  </div>
+                  </div>
+                  {% else %}
+                        <p>Sorry, dude. Looks like there weren't any phone numbers found.</p>
+                        {% endfor %} 
+				<div class="row">
+                <div class="col">
+
+                <div class="form-popup" id="myForm">
+                  <form action="/craigslist" class="form-container">
+                    <h1>CL Phone lookup</h1>
+                	
+                    <label for="email"><b>City</b></label><br />
+                    Enter the city as it appears in the URL<br />
+                    <em>Ex: for https://southjersey.craigslist.org/, put:</em>
+                    <input type="text" placeholder="southjersey" name="city" required>
+                
+                    <label for="psw"><b>Type</b></label><br />
+                  <input type="radio" name="section_type" value="sss" checked> For Sale<br />
+                  <input type="radio" name="section_type" value="hhh"> Housing<br />
+                  <input type="radio" name="section_type" value="ccc"> Community<br />  
+                  Jobs (coming soon)<br />
+                  Services (coming soon)<br />
+                  <p>It will take time to load. <strong>Only click submit once.</strong> There's a lot of scraping and work going on in the background.</p>
+                    <button type="submit" class="btn">Submit</button>
+                    <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+                  </form>
+                </div>
+                              
+                <script>
+                function openForm() {
+                    document.getElementById("myForm").style.display = "block";
+                }
+                
+                function closeForm() {
+                    var city = document.getElementById("city");
+                    var section_type = document.getElementById("section_type");
+                    document.getElementById("myForm").style.display = "none";
+                }
+                          
+                </script>
+                </div>
+                </div>
+              </div>
+            </div>
+            
+
+            
+            <div class="card-footer small text-muted">Hey honey.</div>
+          </div>
+
+          <p class="small text-center text-muted my-5">
+              <button class="open-button float-right" onclick="openForm()">Craigslist Submission</button>
+          </p>
+
+        </div>
+        <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <footer class="sticky-footer">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright © Pranktastic 2018</span>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+      <!-- /.content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="login.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Page level plugin JavaScript-->
+    <script src="/static/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="/static/vendor/datatables/dataTables.bootstrap4.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/static/js/sb-admin.min.js"></script>
+
+    <!-- Demo scripts for this page-->
+    <script src="/static/js/demo/datatables-demo.js"></script>
+{% endblock %} 
+  </body>
+
+</html>
